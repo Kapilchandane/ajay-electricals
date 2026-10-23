@@ -128,16 +128,19 @@ CREATE POLICY "Allow modify settings" ON public.shop_settings
 
 -- 6. SEED INITIAL DATA (Ajay Electricals Pune Services & Products)
 
-INSERT INTO public.shop_settings (id, shop_name, phone_emergency, phone_whatsapp, phone_alt, address, hours, banner_message)
+INSERT INTO public.shop_settings (id, shop_name, phone_emergency, phone_whatsapp, phone_alt, address, hours, instagram_url, instagram_handle, banner_message, upi_id)
 VALUES (
     'primary',
     'Ajay Electricals',
-    '9673681767',
-    '9673681767',
     '7666184280',
-    'Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052',
+    '7666184280',
+    '9673681767',
+    'Ajay electricals ,Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052',
     'Shop Open: 9:00 AM - 10:30 PM (24/7 Emergency On Call)',
-    '⚡ 24-hour emergency electrical service available in Karvenagar & Pune. Call +91 9673681767'
+    'https://instagram.com/ajay.electricals.contractors',
+    '@ajay.electricals.contractors',
+    '⚡ 24-hour emergency electrical service available in Karvenagar & Pune. Call +91 7666184280',
+    'ajayelectricals@okaxis'
 ) ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.services (id, title, category, icon, description, price, estimated_duration, display_order)

@@ -4,16 +4,16 @@ import { createClient } from '@supabase/supabase-js';
 export const DEFAULT_SETTINGS = {
   shop_name: 'Ajay Electricals',
   tagline: 'Sales, Repairs & Fast Doorstep Electrical Services in Pune',
-  phone_emergency: '9673681767',
-  phone_whatsapp: '9673681767',
-  phone_alt: '7666184280',
-  address: 'Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052',
+  phone_emergency: '7666184280',
+  phone_whatsapp: '7666184280',
+  phone_alt: '9673681767',
+  address: 'Ajay electricals ,Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052',
   hours: 'Shop open: 9:00 AM – 10:30 PM (24/7 Emergency Service On-Call)',
   upi_id: 'ajayelectricals@okaxis',
-  instagram_url: 'https://instagram.com/ajay_electricals',
-  instagram_handle: '@ajay_electricals',
-  banner_message: '⚡ 24-hour emergency electrical service available in Karvenagar & Pune! Call +91 9673681767',
-  payment_info: 'UPI: 9673681767@upi / GPay / PhonePe\nBank: Ajay Electricals, Current A/C\nCash upon technician visit is also accepted.',
+  instagram_url: 'https://instagram.com/ajay.electricals.contractors',
+  instagram_handle: '@ajay.electricals.contractors',
+  banner_message: '⚡ 24-hour emergency electrical service available in Karvenagar & Pune. Call +91 7666184280',
+  payment_info: 'UPI: ajayelectricals@okaxis / GPay / PhonePe\nBank: Ajay Electricals, Current A/C\nCash upon technician visit is also accepted.',
   show_emergency_btn: true
 };
 
@@ -326,6 +326,25 @@ class BackendManager {
     }
     if (!localStorage.getItem('ajay_settings')) {
       localStorage.setItem('ajay_settings', JSON.stringify(DEFAULT_SETTINGS));
+    } else {
+      // One-time migration of old default contact/instagram values to new ones.
+      try {
+        const raw = localStorage.getItem('ajay_settings');
+        const s = JSON.parse(raw);
+        const changed = {};
+        if (s.phone_emergency === '9673681767') changed.phone_emergency = '7666184280';
+        if (s.phone_whatsapp === '9673681767') changed.phone_whatsapp = '7666184280';
+        if (s.phone_alt === '7666184280') changed.phone_alt = '9673681767';
+        if (s.address === 'Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052') changed.address = 'Ajay electricals ,Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052';
+        if (s.instagram_url === 'https://instagram.com/ajay_electricals') changed.instagram_url = 'https://instagram.com/ajay.electricals.contractors';
+        if (s.instagram_handle === '@ajay_electricals') changed.instagram_handle = '@ajay.electricals.contractors';
+        if (s.banner_message === '⚡ 24-hour emergency electrical service available in Karvenagar & Pune! Call +91 9673681767') changed.banner_message = '⚡ 24-hour emergency electrical service available in Karvenagar & Pune. Call +91 7666184280';
+        if (Object.keys(changed).length) {
+          localStorage.setItem('ajay_settings', JSON.stringify({ ...s, ...changed }));
+        }
+      } catch (e) {
+        // ignore parse errors
+      }
     }
   }
 
