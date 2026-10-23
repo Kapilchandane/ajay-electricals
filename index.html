@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Ajay Electricals – Sales, Repairs & 24/7 Doorstep Service in Pune</title>
+  <meta name="description"
+    content="Ajay Electricals: Your trusted electrical store & doorstep repair service in Karvenagar, Pune. Fan, mixer, geyser repairs, house wiring, CCTV installation & electrical sales." />
+  <meta name="keywords"
+    content="Ajay Electricals Pune, electrician Karvenagar, geyser repair Pune, fan repair, house wiring Pune, electrical shop Karvenagar, CCTV installation Pune" />
+  <meta name="theme-color" content="#ea580c" />
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ea580c'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg>" />
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+
+<body>
+
+  <!-- TOP EMERGENCY ANNOUNCEMENT TICKER -->
+  <div class="top-ticker" id="topTicker">
+    <div class="top-ticker-content">
+      <span class="ticker-pulse-icon"
+        style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(250, 204, 21, 0.2); color: #facc15;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+      </span>
+      <span id="tickerText">24-hour emergency electrical service available in Karvenagar &amp; Pune! Call now</span>
+      <a href="tel:+919673681767" id="tickerCallLink" style="display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+          </path>
+        </svg>
+        <span id="tickerPhoneSpan">+91 9673681767</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN NAVIGATION -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 id="navShopName">Ajay Electricals</h1>
+          <span>Sales &amp; Service · Pune</span>
+        </div>
+      </a>
+
+      <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links-wrap" id="navLinksWrap">
+        <ul class="nav-menu">
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#products" class="nav-link">Store / Sales</a></li>
+          <li><a href="#book" class="nav-link">Book Technician</a></li>
+          <li><a href="#track" class="nav-link">Track Booking</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="#book" class="btn btn-primary btn-sm">Book Service</a>
+          <button id="openAdminBtn" class="btn btn-secondary btn-sm" title="Owner Admin Dashboard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Admin
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge-pill">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#f97316" stroke="currentColor" stroke-width="1.5">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span>Verified Master Electricians &amp; Authorized Retailer</span>
+        </div>
+        <h1>
+          Complete Electrical <span class="highlight">Sales &amp; Service</span> at Your Doorstep.
+        </h1>
+        <p class="hero-desc">
+          Professional repairs for fans, mixers, geysers, MCB distribution, complete house wiring, CCTV setups, and
+          top-brand electrical goods in Karvenagar, Pune.
+        </p>
+        <div class="hero-cta">
+          <a href="#book" class="btn btn-primary btn-lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Book Doorstep Electrician</span>
+          </a>
+          <a href="#products" class="btn btn-secondary btn-lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>View Sales Catalog</span>
+          </a>
+          <a href="tel:+919673681767" class="btn btn-outline btn-lg"
+            style="color: #ffffff; border-color: rgba(255,255,255,0.4);" id="heroEmergencyBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>24/7 Emergency</span>
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <b>45 Mins</b>
+            <span>Emergency Arrival</span>
+          </div>
+          <div class="stat-item">
+            <b>12,500+</b>
+            <span>Repairs Completed</span>
+          </div>
+          <div class="stat-item">
+            <b>4.9 ★</b>
+            <span>Google Rating</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-card">
+          <img src="/hero-store.jpg" alt="Ajay Electricals Pune Showroom &amp; Workshop" id="heroImage" />
+          <div class="hero-floating-badge">
+            <div class="floating-info">
+              <span class="icon" style="color: #f97316; display: flex; align-items: center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </span>
+              <div>
+                <h4>Ajay Electricals Karvenagar</h4>
+                <p>Lane 7, Canol Road, Pune 411052</p>
+              </div>
+            </div>
+            <a href="#contact" class="btn btn-primary btn-sm">Get Directions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SERVICES SECTION -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Reliable Electrical Services</span>
+        <h2 class="section-title">Expert Repairs &amp; Installations</h2>
+        <p class="section-sub">From quick appliance fixes to full building wiring and CCTV surveillance, our certified
+          technicians ensure total electrical safety.</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="serviceFilterTabs">
+        <button class="filter-chip active" data-filter="all">All Services</button>
+        <button class="filter-chip" data-filter="repair">Appliance Repairs</button>
+        <button class="filter-chip" data-filter="wiring">Wiring &amp; MCB</button>
+        <button class="filter-chip" data-filter="installation">Fittings &amp; DTH</button>
+        <button class="filter-chip" data-filter="security">CCTV &amp; Security</button>
+        <button class="filter-chip" data-filter="maintenance">Society AMC</button>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="services-grid" id="servicesGridContainer">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE / SALES SHOWCASE SECTION -->
+  <section class="section" id="products" style="background: #ffffff; border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Electrical Showroom</span>
+        <h2 class="section-title">Genuine Electrical Products &amp; Sales</h2>
+        <p class="section-sub">Original branded switches, ceiling fans, LED lights, ISI certified wires, geysers, and
+          CCTV equipment with manufacturer warranty.</p>
+      </div>
+
+      <!-- Product Filter Tabs -->
+      <div class="filter-tabs" id="productFilterTabs">
+        <button class="filter-chip active" data-cat="all">All Products</button>
+        <button class="filter-chip" data-cat="appliances">Fans &amp; Geysers</button>
+        <button class="filter-chip" data-cat="lighting">LED Lighting</button>
+        <button class="filter-chip" data-cat="switches">Switches &amp; MCBs</button>
+        <button class="filter-chip" data-cat="wires">Cables &amp; Wires</button>
+        <button class="filter-chip" data-cat="security">CCTV Kits</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGridContainer">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING & LIVE TRACKING DUAL SECTION -->
+  <section class="section booking-section" id="book">
+    <div class="container">
+      <div class="booking-layout">
+
+        <!-- BOOKING FORM -->
+        <div class="booking-box">
+          <span class="section-tag">Instant Booking</span>
+          <h3>Book an Expert Technician</h3>
+          <p>Book online in 60 seconds. Our electrician will contact you and arrive at your scheduled time slot.</p>
+
+          <form id="bookingForm" class="form-grid">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="bookName">Your Full Name *</label>
+                <input type="text" id="bookName" class="form-control" placeholder="e.g. Ramesh Patil" required />
+              </div>
+              <div class="form-group">
+                <label for="bookPhone">10-Digit Mobile Number *</label>
+                <input type="tel" id="bookPhone" class="form-control" placeholder="e.g. 9822012345" pattern="[0-9]{10}"
+                  maxlength="10" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="bookService">Select Service Needed *</label>
+              <select id="bookService" class="form-control" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bookAddress">Complete Doorstep Address in Pune *</label>
+              <input type="text" id="bookAddress" class="form-control"
+                placeholder="Flat No, Wing, Building Name, Landmark, Karvenagar / Kothrud" required />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="bookDate">Preferred Date *</label>
+                <input type="date" id="bookDate" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label for="bookSlot">Preferred Time Slot *</label>
+                <select id="bookSlot" class="form-control" required>
+                  <option value="Morning (9 AM - 12 PM)">Morning (9:00 AM – 12:00 PM)</option>
+                  <option value="Afternoon (12 PM - 4 PM)">Afternoon (12:00 PM – 4:00 PM)</option>
+                  <option value="Evening (4 PM - 8 PM)">Evening (4:00 PM – 8:00 PM)</option>
+                  <option value="Emergency (Within 45 Mins)">🚨 Emergency (Within 45 Mins)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Service Urgency</label>
+              <div class="urgency-options">
+                <label class="urgency-label active">
+                  <input type="radio" name="urgency" value="Standard" checked />
+                  <b>Standard</b>
+                  <span>Regular Visit</span>
+                </label>
+                <label class="urgency-label">
+                  <input type="radio" name="urgency" value="Urgent" />
+                  <b>Same Day</b>
+                  <span>Priority Visit</span>
+                </label>
+                <label class="urgency-label">
+                  <input type="radio" name="urgency" value="Emergency" />
+                  <b>Emergency</b>
+                  <span>Immediate (45m)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="bookProblem">Problem Description / Notes (Optional)</label>
+              <textarea id="bookProblem" class="form-control" rows="2"
+                placeholder="Tell us what is wrong, e.g. geyser MCB trip, fan spark, new wiring point..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="submitBookingBtn"
+              style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Confirm Service Booking</span>
+            </button>
+          </form>
+
+          <div id="bookingConfirmationAlert" style="display: none; margin-top: 18px;"></div>
+        </div>
+
+        <!-- TRACKING PORTAL -->
+        <div class="track-card" id="track">
+          <span class="section-tag">Real-Time Status</span>
+          <h3>Track Your Service Booking</h3>
+          <p style="color: var(--text-muted); margin-bottom: 20px;">
+            Check live progress of your repair request, assigned technician, or estimated visit.
+          </p>
+
+          <form id="trackForm" class="form-grid">
+            <div class="form-group">
+              <label for="trackCode">Booking ID *</label>
+              <input type="text" id="trackCode" class="form-control" placeholder="e.g. AE-4182" required />
+            </div>
+            <div class="form-group">
+              <label for="trackPhone">Registered Phone Number *</label>
+              <input type="tel" id="trackPhone" class="form-control" placeholder="10-digit number" required />
+            </div>
+            <button type="submit" class="btn btn-secondary"
+              style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>Check Booking Status</span>
+            </button>
+          </form>
+
+          <!-- Status Result Display -->
+          <div class="track-result-box" id="trackResultBox">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div>
+                <b id="trackServiceTitle" style="font-size: 1.1rem; color: #0f172a;">Service Name</b>
+                <div style="font-size: 0.8rem; color: var(--text-muted);" id="trackBookingCode">Code: AE-0000</div>
+              </div>
+              <span id="trackStatusBadge" class="status-badge Pending">Pending</span>
+            </div>
+
+            <!-- Visual 4-Step Progress -->
+            <div class="status-timeline">
+              <div class="timeline-step" id="stepPlaced">
+                <div class="step-circle">1</div>
+                <div class="step-label">Booked</div>
+              </div>
+              <div class="timeline-step" id="stepConfirmed">
+                <div class="step-circle">2</div>
+                <div class="step-label">Confirmed</div>
+              </div>
+              <div class="timeline-step" id="stepProgress">
+                <div class="step-circle">3</div>
+                <div class="step-label">In Progress</div>
+              </div>
+              <div class="timeline-step" id="stepCompleted">
+                <div class="step-circle">4</div>
+                <div class="step-label">Completed</div>
+              </div>
+            </div>
+
+            <div
+              style="background: #f8fafc; border-radius: 12px; padding: 14px; font-size: 0.86rem; margin-top: 14px; line-height: 1.6;"
+              id="trackDetailsContent">
+              <!-- Populated dynamically -->
+            </div>
+
+            <div style="margin-top: 14px; display: flex; gap: 8px;">
+              <a href="#" id="trackDirectWaBtn" class="btn btn-emerald btn-sm"
+                style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;"
+                target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                </svg>
+                <span>WhatsApp Support</span>
+              </a>
+              <a href="#" id="trackDirectCallBtn" class="btn btn-outline btn-sm"
+                style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg>
+                <span>Call Shop</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Sample Quick Test IDs Helper -->
+          <div style="margin-top: auto; padding-top: 20px; font-size: 0.78rem; color: #94a3b8;">
+            <b>Test Bookings available:</b> Try <a href="javascript:void(0)"
+              onclick="quickTestTrack('AE-4182', '9822012345')"><code>AE-4182</code></a>, <a href="javascript:void(0)"
+              onclick="quickTestTrack('AE-7391', '9890123456')"><code>AE-7391</code></a>, or <a
+              href="javascript:void(0)" onclick="quickTestTrack('AE-2345', '9922883344')"><code>AE-2345</code></a>.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER REVIEWS & GUARANTEE -->
+  <section class="section" style="background: #f8fafc;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Client Reviews</span>
+        <h2 class="section-title">Trusted by 500+ Homes &amp; Housing Societies</h2>
+        <p class="section-sub">Read what residents across Karvenagar, Kothrud and Pune say about Ajay Electricals.</p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="trust-stars">★★★★★</div>
+          <p>"My geyser stopped working on a chilly morning and MCB was tripping continuously. Ajay Electricals arrived
+            within 40 minutes, diagnosed the burned heating coil and replaced it with genuine parts. Fair pricing and
+            polite staff!"</p>
+          <div class="trust-author">Sachin Kulkarni</div>
+          <div class="trust-loc">Canol Road, Karvenagar</div>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-stars">★★★★★</div>
+          <p>"We gave our society common area lighting and water pump automated panel maintenance to Ajay Electricals.
+            Extremely reliable service and available 24x7 whenever there's any voltage or power issue."</p>
+          <div class="trust-author">Mrs. Sunita Deshpande (Chairman)</div>
+          <div class="trust-loc">Swapna Nagari CHS, Pune</div>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-stars">★★★★★</div>
+          <p>"Got 4 HD CCTV cameras and full shop wiring done for my medical store near Cummins college. Very clean
+            concealed wiring, good brands (CP Plus & Polycab), and neat finishing."</p>
+          <div class="trust-author">Nilesh More</div>
+          <div class="trust-loc">Near Cummins College, Karvenagar</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT & LOCATION SECTION -->
+  <section class="section" id="contact" style="background: #ffffff;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Store Location &amp; Contact</span>
+        <h2 class="section-title">Visit Our Shop or Get in Touch</h2>
+        <p class="section-sub">Open 7 days a week. For emergencies, our technicians are on standby 24 hours a day.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon-box" title="Showroom Address">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3.5" fill="rgba(234, 88, 12, 0.2)"></circle>
+            </svg>
+          </div>
+          <h3>Showroom Address</h3>
+          <p id="contactAddressText">Canol Road, Lane No. 7, Karvenagar, Pune, Maharashtra 411052</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Canol+Road+Lane+No+7+Karvenagar+Pune" target="_blank"
+            rel="noopener" class="btn btn-outline btn-sm" id="googleMapsBtn"
+            style="display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+            </svg>
+            <span>Open Google Maps</span>
+          </a>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon-box" title="Store Working Hours">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" fill="rgba(234, 88, 12, 0.12)"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <h3>Store Working Hours</h3>
+          <p id="contactHoursText">Shop Open: 9:00 AM – 10:30 PM (All 7 Days)</p>
+          <div
+            style="background: var(--pri-light); color: var(--pri); padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>24×7 Emergency Service On-Call</span>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon-box" title="Quick Contact & Payment">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="3" fill="rgba(234, 88, 12, 0.12)"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+              <circle cx="7" cy="15" r="1.5" fill="currentColor"></circle>
+              <line x1="11" y1="15" x2="17" y2="15"></line>
+            </svg>
+          </div>
+          <h3>Quick Contact &amp; Payment</h3>
+          <p>
+            <b>WhatsApp:</b> <span id="contactWaNum">+91 9673681767</span><br />
+            <b>Alternate:</b> <span id="contactAltNum">+91 7666184280</span><br />
+            <b>UPI ID:</b> <span id="contactUpiText">9673681767@upi</span>
+          </p>
+          <a href="https://wa.me/919673681767" target="_blank" rel="noopener" class="btn btn-emerald btn-sm"
+            id="contactWaBtn" style="display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+            </svg>
+            <span>Chat on WhatsApp</span>
+          </a>
+        </div>
+
+        <!-- INSTAGRAM SHOWCASE CARD -->
+        <div class="instagram-banner-card">
+          <div class="instagram-banner-content">
+            <div class="instagram-icon-badge" title="Instagram">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </div>
+            <div class="instagram-banner-text">
+              <span class="ig-tag">Official Social Channel</span>
+              <h3>Connect with Ajay Electricals on Instagram</h3>
+              <p>See our latest residential wiring projects, customer appliance repairs, safety tips, and showroom
+                discounts across Pune.</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/ajay_electricals" id="instagramBannerLink" target="_blank" rel="noopener"
+            class="btn btn-instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>Follow <span id="igHandleText">@ajay_electricals</span> ↗</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3 id="footerShopName">Ajay Electricals</h3>
+          <p>Your one-stop electrical repair workshop and wholesale/retail electrical showroom in Karvenagar, Pune.
+            Committed to electrical safety, quality equipment, and 24-hour service.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Services</h4>
+          <ul>
+            <li><a href="#services">Ceiling &amp; Exhaust Fan Repair</a></li>
+            <li><a href="#services">Geyser Heating Element Repair</a></li>
+            <li><a href="#services">Mixer Grinder Rewinding</a></li>
+            <li><a href="#services">Complete Flat / House Wiring</a></li>
+            <li><a href="#services">CCTV Security Systems</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#book">Book Doorstep Visit</a></li>
+            <li><a href="#track">Track Booking Status</a></li>
+            <li><a href="#products">Electrical Store Products</a></li>
+            <li><a href="#contact">Shop Location</a></li>
+            <li><a href="javascript:void(0)" id="footerAdminLink">Owner Admin Portal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Follow &amp; Contact</h4>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 14px;">
+            Follow our Instagram for repair highlights and daily electrical tips:
+          </p>
+          <div class="footer-social-links">
+            <a href="https://instagram.com/ajay_electricals" target="_blank" rel="noopener" class="footer-social-card"
+              id="footerInstagramBtn" title="Follow Ajay Electricals on Instagram">
+              <div class="social-icon-box ig-gradient">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </div>
+              <div class="social-info">
+                <b id="footerIgHandle">@ajay_electricals</b>
+                <span>Follow on Instagram</span>
+              </div>
+              <span class="social-arrow">↗</span>
+            </a>
+
+            <a href="https://wa.me/919673681767" target="_blank" rel="noopener" class="footer-social-card"
+              id="footerWaBtn" title="Chat on WhatsApp">
+              <div class="social-icon-box wa-gradient">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                </svg>
+              </div>
+              <div class="social-info">
+                <b>WhatsApp Chat</b>
+                <span>Instant Consultation</span>
+              </div>
+              <span class="social-arrow">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© <span id="year">2026</span> Ajay Electricals · Karvenagar, Pune. All rights reserved.</div>
+        <div>Design & Managed by @Kaps Creative Co.</div>
+        <div class="footer-social-pills">
+          <a href="https://instagram.com/ajay_electricals" id="footerIgCircle" target="_blank" rel="noopener"
+            class="footer-icon-circle ig" title="Instagram">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://wa.me/919673681767" id="footerWaCircle" target="_blank" rel="noopener"
+            class="footer-icon-circle wa" title="WhatsApp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+            </svg>
+          </a>
+          <a href="tel:+919673681767" id="footerCallCircle" class="footer-icon-circle" title="Call Us">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+              </path>
+            </svg>
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Canol+Road+Lane+No+7+Karvenagar+Pune"
+            id="footerMapsCircle" target="_blank" rel="noopener" class="footer-icon-circle" title="Google Maps">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING QUICK DIAL ACTION BUTTONS -->
+  <div class="floating-actions" id="floatingActions">
+    <a href="https://wa.me/919673681767?text=Hello%20Ajay%20Electricals%2C%20I%20need%20electrical%20service"
+      target="_blank" rel="noopener" class="fab-btn fab-wa" id="fabWaBtn" title="Chat on WhatsApp">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+      </svg>
+      <span class="fab-text">WhatsApp</span>
+    </a>
+    <a href="tel:+919673681767" class="fab-btn fab-call" id="fabCallBtn" title="24/7 Emergency Electrician">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+        </path>
+      </svg>
+      <span class="fab-text">24/7 Emergency Call</span>
+    </a>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastMessage" class="toast-msg">
+    <span id="toastIcon">✓</span>
+    <span id="toastText">Action completed successfully</span>
+  </div>
+
+  <!-- ========================================================================
+       ADMIN DASHBOARD MODAL / OVERLAY
+       ======================================================================== -->
+  <div class="admin-modal-overlay" id="adminModal">
+    <div class="admin-window">
+
+      <!-- Admin Header -->
+      <div class="admin-header">
+        <div class="admin-title-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <h3 style="margin: 0; font-size: 1.15rem;">Ajay Electricals Admin Dashboard</h3>
+          <span class="admin-badge">Management</span>
+          <span id="supabaseIndicator" class="supabase-live-indicator local">
+            <span class="supabase-dot"></span>
+            <span id="supabaseIndicatorText">Local DB Mode</span>
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="adminUserBadge"
+            style="font-size: 0.8rem; color: #f1f5f9; background: rgba(255,255,255,0.12); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); display: inline-flex; align-items: center; gap: 6px;">
+            <span
+              style="display:inline-block; width: 7px; height: 7px; border-radius: 50%; background: #22c55e;"></span>
+            <span id="adminUserEmailText">Admin</span>
+          </span>
+          <button id="adminLogoutBtn" class="btn btn-secondary btn-sm"
+            style="background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.4); color: #fca5a5;"
+            title="Sign out of Admin session">
+            🚪 Logout
+          </button>
+          <button id="closeAdminBtn" class="btn btn-secondary btn-sm"
+            style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff;">
+            ✕ Close
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Top Nav Tabs -->
+      <div class="admin-nav-bar">
+        <div class="admin-tabs" id="adminTabsBar">
+          <button class="admin-tab-btn active" data-tab="dashboard">
+            <span>📊</span> Dashboard Overview
+          </button>
+          <button class="admin-tab-btn" data-tab="bookings">
+            <span>📋</span> Service Bookings (<span id="tabBookingCount">0</span>)
+          </button>
+          <button class="admin-tab-btn" data-tab="services">
+            <span>⚙️</span> Manage Services
+          </button>
+          <button class="admin-tab-btn" data-tab="products">
+            <span>🛒</span> Sales Catalog
+          </button>
+          <button class="admin-tab-btn" data-tab="supabase">
+            <span>⚡</span> Supabase Backend &amp; Settings
+          </button>
+        </div>
+
+        <div>
+          <button id="refreshDataBtn" class="btn btn-secondary btn-sm" title="Refresh Live Data">
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Tab Contents Body -->
+      <div class="admin-content-body" id="adminContentBody">
+        <!-- Rendered dynamically by main.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ADMIN SIGN IN MODAL (LOGIN ID & PASSWORD) -->
+  <div class="admin-modal-overlay" id="adminLoginModal" style="z-index: 120;">
+    <div
+      style="background: #ffffff; border-radius: 20px; max-width: 440px; margin: 80px auto; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35); text-align: left; position: relative; border: 1px solid var(--border);">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div
+          style="width: 56px; height: 56px; border-radius: 18px; background: #fff7ed; color: #ea580c; display: grid; place-items: center; margin: 0 auto 12px; font-size: 1.6rem; border: 1px solid #fed7aa;">
+          🛡️
+        </div>
+        <h3 style="margin: 0 0 6px; font-size: 1.35rem; color: #0f172a; font-weight: 700;">Ajay Electricals Admin Login
+        </h3>
+        <p style="color: #64748b; font-size: 0.88rem; margin: 0;">
+          Sign in to manage bookings, services, sales products &amp; Supabase database.
+        </p>
+      </div>
+
+      <div id="adminLoginAlert"
+        style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px; background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca;">
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label style="display: block; font-weight: 600; font-size: 0.86rem; color: #334155; margin-bottom: 6px;">
+            Admin Login ID / Email
+          </label>
+          <input type="text" id="adminLoginIdInput" class="form-control"
+            placeholder="e.g. admin@ajayelectricals.com or admin" required autocomplete="username" autofocus />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="font-weight: 600; font-size: 0.86rem; color: #334155; margin: 0;">Password</label>
+            <button type="button" id="togglePasswordBtn"
+              style="background: none; border: none; color: #64748b; font-size: 0.8rem; cursor: pointer; padding: 0;">👁️
+              Show</button>
+          </div>
+          <input type="password" id="adminPasswordInput" class="form-control" placeholder="Enter password" required
+            autocomplete="current-password" />
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+          <button type="button" id="cancelLoginBtn" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+          <button type="submit" id="adminLoginSubmitBtn" class="btn btn-primary" style="flex: 1.3;">
+            🔐 Sign In as Admin
+          </button>
+        </div>
+
+        <div
+          style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; font-size: 0.8rem; color: #64748b; line-height: 1.45;">
+          <div style="font-weight: 600; color: #334155; margin-bottom: 4px;">ℹ️ Admin Credentials Guide:</div>
+          <div>• <b>Supabase Cloud User:</b> Add any email &amp; password in Supabase Dashboard (<i>Authentication →
+              Users → Add User</i>).</div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- VITE MAIN ENTRY SCRIPT -->
+  <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>
