@@ -1419,8 +1419,8 @@ function renderAdminProducts(container) {
 function renderAdminSupabaseSettings(container) {
   const cfg = dbManager.getSupabaseConfig();
   const s = shopSettings;
-  const currentAdminUser = localStorage.getItem('ajay_admin_username') || 'admin';
-  const currentAdminPass = localStorage.getItem('ajay_admin_password') || 'admin123';
+  const currentAdminUser = localStorage.getItem('ajay_admin_username') || 'rajveer';
+  const currentAdminPass = localStorage.getItem('ajay_admin_password') || 'rajveer123';
 
   container.innerHTML = `
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">

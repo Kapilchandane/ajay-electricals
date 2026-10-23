@@ -236,13 +236,13 @@ class BackendManager {
     }
 
     // 2. Check Manual / Local Admin credentials
-    const savedUser = localStorage.getItem('ajay_admin_username') || 'admin';
-    const savedPass = localStorage.getItem('ajay_admin_password') || 'admin123';
+    const savedUser = localStorage.getItem('ajay_admin_username') || 'rajveer';
+    const savedPass = localStorage.getItem('ajay_admin_password') || 'rajveer123';
     const legacyPin = localStorage.getItem('ajay_admin_pin') || '1234';
 
     const isMatch =
       (trimmedId.toLowerCase() === savedUser.toLowerCase() && trimmedPass === savedPass) ||
-      (trimmedId.toLowerCase() === 'admin' && (trimmedPass === 'admin123' || trimmedPass === legacyPin || trimmedPass === '1234')) ||
+      (trimmedId.toLowerCase() === 'rajveer' && (trimmedPass === 'rajveer123' || trimmedPass === legacyPin || trimmedPass === '1234')) ||
       (trimmedId.toLowerCase() === 'ajay' && (trimmedPass === 'ajay123' || trimmedPass === legacyPin));
 
     if (isMatch) {
