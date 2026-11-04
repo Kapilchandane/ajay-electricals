@@ -560,10 +560,14 @@ async function handleBookingSubmit(e) {
   const urgency = urgencyRadio ? urgencyRadio.value : 'Standard';
 
   try {
+    const svcObj = allServices.find(s => s.title === service);
+    const category = svcObj ? (svcObj.category || 'repair') : 'repair';
+
     const res = await dbManager.createBooking({
       name,
       phone,
       service,
+      category,
       address,
       date,
       slot,
@@ -1039,7 +1043,7 @@ function renderAdminBookings(container) {
     input.onblur = async () => {
       const code = input.dataset.code;
       const tech = input.value.trim();
-      await dbManager.updateBookingStatus(code, undefined, tech);
+      await dbManager.updateBookingStatus(code, null, tech);
       showToast('Assigned technician saved');
     };
   });
@@ -1052,7 +1056,7 @@ function renderAdminBookings(container) {
       const match = current.find(b => b.booking_code === code);
       if (match) {
         match.estimated_cost = cost;
-        await dbManager.updateBookingStatus(code, match.status, match.assigned_technician, match.admin_notes);
+        await dbManager.updateBookingStatus(code, match.status, match.assigned_technician, match.admin_notes, cost);
         showToast('Service cost updated');
       }
     };

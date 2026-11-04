@@ -477,12 +477,14 @@ class BackendManager {
     return { success: true, booking: withId };
   }
 
-  async updateBookingStatus(code, newStatus, technician = null, notes = null) {
+  async updateBookingStatus(code, newStatus = null, technician = null, notes = null, cost = null) {
     if (this.isSupabaseConnected && this.supabase) {
       try {
-        const payload = { status: newStatus, updated_at: new Date().toISOString() };
+        const payload = { updated_at: new Date().toISOString() };
+        if (newStatus) payload.status = newStatus;
         if (technician !== null) payload.assigned_technician = technician;
         if (notes !== null) payload.admin_notes = notes;
+        if (cost !== null) payload.estimated_cost = cost;
 
         const { error } = await this.supabase
           .from('bookings')
@@ -502,9 +504,10 @@ class BackendManager {
       if (b.booking_code === code) {
         return {
           ...b,
-          status: newStatus,
+          status: newStatus ? newStatus : b.status,
           assigned_technician: technician !== null ? technician : b.assigned_technician,
-          admin_notes: notes !== null ? notes : b.admin_notes
+          admin_notes: notes !== null ? notes : b.admin_notes,
+          estimated_cost: cost !== null ? cost : b.estimated_cost
         };
       }
       return b;
@@ -582,12 +585,13 @@ class BackendManager {
     } catch (e) { console.warn(e); }
     if (!local || !local.length) local = DEFAULT_SERVICES;
 
-    // Merge by id; local edits/adds win (recovers items saved before fixes).
+    // Merge by id: remote (Supabase) wins over local for shared items,
+    // while local-only items (saved before Supabase) are still recovered.
     const merged = new Map();
-    for (const s of remote) merged.set(s.id, { ...s });
-    for (const s of local) {
-      const r = merged.get(s.id);
-      merged.set(s.id, r ? { ...r, ...s } : { ...s });
+    for (const s of local) merged.set(s.id, { ...s });
+    for (const s of remote) {
+      const l = merged.get(s.id);
+      merged.set(s.id, l ? { ...l, ...s } : { ...s });
     }
     let result = Array.from(merged.values());
     if (!result.length) result = DEFAULT_SERVICES;
@@ -671,10 +675,10 @@ class BackendManager {
     if (!local || !local.length) local = DEFAULT_PRODUCTS;
 
     const merged = new Map();
-    for (const p of remote) merged.set(p.id, { ...p });
-    for (const p of local) {
-      const r = merged.get(p.id);
-      merged.set(p.id, r ? { ...r, ...p } : { ...p });
+    for (const p of local) merged.set(p.id, { ...p });
+    for (const p of remote) {
+      const l = merged.get(p.id);
+      merged.set(p.id, l ? { ...l, ...p } : { ...p });
     }
     let result = Array.from(merged.values());
     if (!result.length) result = DEFAULT_PRODUCTS;
@@ -753,14 +757,15 @@ class BackendManager {
     } catch (e) {
       console.warn('Could not parse local settings:', e);
     }
-    // Merge: defaults < remote (Supabase) < local (latest user edits). Local wins.
-    return { ...DEFAULT_SETTINGS, ...(remote || {}), ...(local || {}) };
+    // Merge: defaults < local (cached edits) < remote (Supabase source of truth).
+    // Remote wins for db columns; local-only fields (e.g. instagram) are preserved.
+    return { ...DEFAULT_SETTINGS, ...(local || {}), ...(remote || {}) };
   }
 
   async saveSettings(settings) {
     // Only send columns that exist in the shop_settings table to Supabase,
     // so extra fields (e.g. instagram_url/handle) don't break the whole upsert.
-    const dbColumns = ['shop_name', 'tagline', 'phone_emergency', 'phone_whatsapp', 'phone_alt', 'address', 'hours', 'upi_id', 'banner_message', 'payment_info', 'show_emergency_btn'];
+    const dbColumns = ['shop_name', 'tagline', 'phone_emergency', 'phone_whatsapp', 'phone_alt', 'address', 'hours', 'upi_id', 'banner_message', 'payment_info'];
     const dbPayload = { id: 'primary', updated_at: new Date().toISOString() };
     for (const key of dbColumns) {
       if (settings[key] !== undefined) dbPayload[key] = settings[key];
