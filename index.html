@@ -347,6 +347,10 @@
             </button>
           </form>
 
+          <div style="margin: 12px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button id="trackNotifyBtn" class="btn btn-secondary btn-sm" style="font-size: 0.8rem;">🔔 Notify me of status changes</button>
+            <span id="trackNotifyStatus" style="color: var(--text-muted); font-size: 0.78rem;"></span>
+          </div>
           <!-- Status Result Display -->
           <div class="track-result-box" id="trackResultBox">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -725,6 +729,16 @@
           </span>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="position: relative;" id="adminNotifWrap">
+            <button id="adminNotifBell" class="btn btn-secondary btn-sm" title="Notifications" style="position: relative; font-size: 1rem; padding: 6px 10px; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff;">🔔<span id="adminNotifBadge" style="position: absolute; top: -6px; right: -6px; background: #ef4444; color: #fff; font-size: 0.62rem; font-weight: 700; border-radius: 999px; padding: 1px 5px; display: none; line-height: 1.2;">0</span></button>
+            <div id="adminNotifDropdown" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); width: 320px; max-height: 420px; overflow: auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.18); z-index: 300;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--border);">
+                <b style="font-size: 0.9rem; color: #0f172a;">Notifications</b>
+                <button id="adminNotifMarkAll" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 3px 8px;">Mark all read</button>
+              </div>
+              <div id="adminNotifList" style="padding: 6px;"></div>
+            </div>
+          </div>
           <span id="adminUserBadge"
             style="font-size: 0.8rem; color: #f1f5f9; background: rgba(255,255,255,0.12); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); display: inline-flex; align-items: center; gap: 6px;">
             <span

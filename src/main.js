@@ -12,6 +12,13 @@ let adminCurrentTab = 'dashboard';
 let bookingStatusFilter = 'all';
 let bookingSearchQuery = '';
 let isAdminAuthenticated = false;
+let knownBookingCodes = new Set();
+let initialBookingsLoaded = false;
+let adminNotifLastSeen = localStorage.getItem('ajay_admin_notif_lastseen') || null;
+let trackNotifyEnabled = localStorage.getItem('ajay_track_notify') === '1';
+let lastTrackedCode = null;
+let lastTrackedStatus = null;
+let adminHasOpened = localStorage.getItem('ajay_admin_has_opened') === '1';
 
 // DOM Elements
 const $ = (selector) => document.querySelector(selector);
@@ -41,6 +48,165 @@ function showToast(message, icon = '✓') {
   setTimeout(() => {
     toast.classList.remove('show');
   }, 3200);
+}
+
+// -----------------------------------------------------------------------------
+// NOTIFICATIONS HELPERS
+// -----------------------------------------------------------------------------
+function playNotifSound() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.25);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.26);
+  } catch (e) {
+    // non-critical
+  }
+}
+
+function fireBrowserNotification(title, body) {
+  try {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'granted') {
+      new Notification(title, { body, icon: '/favicon.svg' });
+    }
+  } catch (e) {
+    // non-critical
+  }
+}
+
+async function requestNotifPermission() {
+  try {
+    if (!('Notification' in window)) return 'unsupported';
+    if (Notification.permission === 'granted') return 'granted';
+    if (Notification.permission === 'denied') return 'denied';
+    const res = await Notification.requestPermission();
+    return res;
+  } catch (e) {
+    return 'error';
+  }
+}
+
+async function sendNtfyPush(title, body) {
+  const topic = (shopSettings.ntfy_topic || localStorage.getItem('ajay_ntfy_topic') || '').trim();
+  if (!topic) return;
+  try {
+    await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
+      method: 'POST',
+      headers: { 'Title': title, 'Priority': 'high', 'Tags': 'bell' },
+      body: body
+    });
+  } catch (e) {
+    console.warn('ntfy push failed', e);
+  }
+}
+
+function getUnreadAdminCount() {
+  if (!adminNotifLastSeen) return 0;
+  const lastTs = new Date(adminNotifLastSeen).getTime();
+  return allBookings.filter(b => {
+    const t = b.created_at ? new Date(b.created_at).getTime() : 0;
+    return t > lastTs;
+  }).length;
+}
+
+function renderAdminNotifications() {
+  const badge = $('#adminNotifBadge');
+  const list = $('#adminNotifList');
+  const count = getUnreadAdminCount();
+  if (badge) {
+    if (count > 0) {
+      badge.textContent = count > 99 ? '99+' : count;
+      badge.style.display = 'inline-block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+  if (!list) return;
+  // Permission banner
+  let banner = '';
+  if ('Notification' in window && Notification.permission !== 'granted') {
+    banner = `<div style="padding: 10px 12px; background: #fffbeb; border-bottom: 1px solid #fde68a; font-size: 0.8rem; color: #92400e;">
+      <button id="enableDesktopAlertsBtn" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; margin-bottom: 6px;">Enable desktop alerts</button><br/>
+      Get notified even when the tab is in the background.
+    </div>`;
+  }
+  const recent = [...allBookings]
+    .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
+    .slice(0, 15);
+  if (recent.length === 0) {
+    list.innerHTML = `<div style="padding: 14px; color: var(--text-muted); font-size: 0.84rem; text-align: center;">No notifications yet.</div>`;
+    return;
+  }
+  list.innerHTML = banner + recent.map(b => {
+    const isNew = adminNotifLastSeen && b.created_at && new Date(b.created_at).getTime() > new Date(adminNotifLastSeen).getTime();
+    return `
+      <div style="padding: 10px 12px; border-bottom: 1px solid #f1f5f9; cursor: pointer; background: ${isNew ? '#fff7ed' : '#fff'};" data-notif-code="${escapeHtml(b.booking_code)}">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+          <b style="font-size: 0.86rem; color: #0f172a;">${escapeHtml(b.customer_name)}</b>
+          ${isNew ? '<span style="font-size: 0.62rem; background: #ef4444; color: #fff; padding: 1px 6px; border-radius: 999px; font-weight: 700;">NEW</span>' : ''}
+        </div>
+        <div style="font-size: 0.78rem; color: #475569; margin-top: 2px;">${escapeHtml(b.service_name)}</div>
+        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">${escapeHtml(b.booking_code)} · ${b.created_at ? new Date(b.created_at).toLocaleString() : ''}</div>
+      </div>
+    `;
+  }).join('') + `<div style="padding: 8px 12px; text-align: center;"><a href="javascript:void(0)" id="notifViewAll" style="font-size: 0.8rem; color: var(--pri); font-weight: 600;">View all bookings →</a></div>`;
+  // click handlers
+  list.querySelectorAll('[data-notif-code]').forEach(el => {
+    el.onclick = () => {
+      const code = el.dataset.notifCode;
+      // open bookings tab
+      $$('#adminTabsBar .admin-tab-btn').forEach(b => b.classList.remove('active'));
+      const bt = document.querySelector('[data-tab="bookings"]');
+      if (bt) bt.classList.add('active');
+      adminCurrentTab = 'bookings';
+      renderAdminContent();
+      // close dropdown
+      const dd = $('#adminNotifDropdown');
+      if (dd) dd.style.display = 'none';
+      // highlight by search
+      bookingSearchQuery = code;
+      renderAdminContent();
+    };
+  });
+  const va = $('#notifViewAll');
+  if (va) {
+    va.onclick = () => {
+      $$('#adminTabsBar .admin-tab-btn').forEach(b => b.classList.remove('active'));
+      const bt = document.querySelector('[data-tab="bookings"]');
+      if (bt) bt.classList.add('active');
+      adminCurrentTab = 'bookings';
+      bookingSearchQuery = '';
+      renderAdminContent();
+      const dd = $('#adminNotifDropdown');
+      if (dd) dd.style.display = 'none';
+    };
+  }
+  const enBtn = $('#enableDesktopAlertsBtn');
+  if (enBtn) {
+    enBtn.onclick = async () => {
+      const r = await requestNotifPermission();
+      showToast(r === 'granted' ? 'Desktop alerts enabled!' : 'Permission not granted', r === 'granted' ? '🔔' : '⚠️');
+      renderAdminNotifications();
+    };
+  }
+}
+
+function markAllAdminNotifRead() {
+  adminNotifLastSeen = new Date().toISOString();
+  localStorage.setItem('ajay_admin_notif_lastseen', adminNotifLastSeen);
+  renderAdminNotifications();
+  showToast('All notifications marked as read', '✓');
 }
 
 // -----------------------------------------------------------------------------
@@ -77,6 +243,13 @@ async function initApp() {
     if ($('#adminModal').style.display === 'block') {
       renderAdminContent();
     }
+    // Refresh customer track result if currently shown
+    const tCode = $('#trackCode') ? $('#trackCode').value.trim() : '';
+    const tPhone = $('#trackPhone') ? $('#trackPhone').value.trim() : '';
+    const tBox = $('#trackResultBox');
+    if (tCode && tPhone && tBox && tBox.style.display !== 'none') {
+      performTracking(tCode, tPhone, true);
+    }
   });
 }
 
@@ -85,6 +258,7 @@ async function initApp() {
 // -----------------------------------------------------------------------------
 async function loadShopSettings() {
   shopSettings = await dbManager.getSettings();
+  if (!shopSettings.ntfy_topic) shopSettings.ntfy_topic = localStorage.getItem('ajay_ntfy_topic') || '';
   renderShopSettingsUI();
 }
 
@@ -332,9 +506,30 @@ function renderProductsGrid() {
 }
 
 async function loadBookings() {
-  allBookings = await dbManager.getBookings();
+  const fresh = await dbManager.getBookings();
+  // Detect newly added bookings (only after first load) -> notify admin
+  if (initialBookingsLoaded) {
+    const newOnes = fresh.filter(b => !knownBookingCodes.has(b.booking_code));
+    newOnes.forEach(b => {
+      if (adminHasOpened || isAdminAuthenticated) {
+        showToast(`New booking from ${b.customer_name}`, '🔔');
+        playNotifSound();
+        fireBrowserNotification('New booking received', `New booking from ${b.customer_name} — ${b.service_name}`);
+      }
+      sendNtfyPush(`New booking from ${b.customer_name}`, `${b.booking_code} · ${b.service_name} · ${b.preferred_date} ${b.preferred_slot}`);
+    });
+  }
+  allBookings = fresh;
+  knownBookingCodes = new Set(fresh.map(b => b.booking_code));
+  initialBookingsLoaded = true;
   const countEl = $('#tabBookingCount');
   if (countEl) countEl.textContent = allBookings.length;
+  // ensure lastSeen initialized so badge isn't flooded on first visit
+  if (!adminNotifLastSeen) {
+    adminNotifLastSeen = new Date().toISOString();
+    localStorage.setItem('ajay_admin_notif_lastseen', adminNotifLastSeen);
+  }
+  renderAdminNotifications();
 }
 
 // -----------------------------------------------------------------------------
@@ -412,6 +607,39 @@ function setupEventListeners() {
   const trackForm = $('#trackForm');
   if (trackForm) {
     trackForm.onsubmit = handleTrackSubmit;
+  }
+
+  // Track notify toggle
+  const trackNotifyBtn = $('#trackNotifyBtn');
+  if (trackNotifyBtn) {
+    const updateTrackNotifyUI = () => {
+      const st = $('#trackNotifyStatus');
+      if (trackNotifyEnabled) {
+        trackNotifyBtn.textContent = '🔕 Stop notifications';
+        if (st) st.textContent = 'You will be notified when status changes (page must stay open).';
+      } else {
+        trackNotifyBtn.textContent = '🔔 Notify me of status changes';
+        if (st) st.textContent = '';
+      }
+    };
+    updateTrackNotifyUI();
+    trackNotifyBtn.onclick = async () => {
+      if (!trackNotifyEnabled) {
+        const r = await requestNotifPermission();
+        if (r !== 'granted') {
+          showToast('Please allow notifications in your browser', '⚠️');
+          return;
+        }
+        trackNotifyEnabled = true;
+        localStorage.setItem('ajay_track_notify', '1');
+      } else {
+        trackNotifyEnabled = false;
+        localStorage.setItem('ajay_track_notify', '0');
+        lastTrackedCode = null;
+        lastTrackedStatus = null;
+      }
+      updateTrackNotifyUI();
+    };
   }
 
   // Admin access button & modals
@@ -538,6 +766,38 @@ function setupEventListeners() {
       showToast('Data refreshed');
     };
   }
+
+  // Notification bell toggle
+  const bellBtn = $('#adminNotifBell');
+  const bellDrop = $('#adminNotifDropdown');
+  if (bellBtn && bellDrop) {
+    bellBtn.onclick = (e) => {
+      e.stopPropagation();
+      const isOpen = bellDrop.style.display === 'block';
+      bellDrop.style.display = isOpen ? 'none' : 'block';
+      if (!isOpen) {
+        renderAdminNotifications();
+        // Enable desktop alerts button
+      }
+    };
+  }
+  const markAllBtn = $('#adminNotifMarkAll');
+  if (markAllBtn) {
+    markAllBtn.onclick = () => {
+      markAllAdminNotifRead();
+    };
+  }
+  // close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    const wrap = $('#adminNotifWrap');
+    const dd = $('#adminNotifDropdown');
+    if (!wrap || !dd) return;
+    if (!wrap.contains(e.target)) {
+      dd.style.display = 'none';
+    }
+  });
+  // Enable desktop alerts button inside dropdown (insert if permission not granted)
+  // handled via renderAdminNotifications augmentation below
 }
 
 // -----------------------------------------------------------------------------
@@ -603,6 +863,9 @@ async function handleBookingSubmit(e) {
             <a href="${waUrl}" target="_blank" class="btn btn-emerald btn-sm">💬 Send to WhatsApp for Instant Confirmation</a>
             <button class="btn btn-secondary btn-sm" onclick="quickTestTrack('${res.booking.booking_code}', '${res.booking.customer_phone}')">🔍 Track This Booking Now</button>
           </div>
+          <p style="margin: 12px 0 0; font-size: 0.8rem; color: #166534;">
+            💡 Tip: Open the Track page and click "🔔 Notify me" to get a browser alert when your booking status changes.
+          </p>
         </div>
       `;
       alertBox.style.display = 'block';
@@ -639,7 +902,7 @@ window.quickTestTrack = function (code, phone) {
   performTracking(code, phone);
 };
 
-async function performTracking(code, phone) {
+async function performTracking(code, phone, silent = false) {
   const resultBox = $('#trackResultBox');
   if (!code || !phone) {
     alert('Please enter both Booking ID and registered phone number.');
@@ -659,6 +922,13 @@ async function performTracking(code, phone) {
   }
 
   const b = res.booking;
+  // Customer status-change notification (free, browser)
+  if (trackNotifyEnabled && lastTrackedCode === b.booking_code && lastTrackedStatus && lastTrackedStatus !== b.status) {
+    fireBrowserNotification('Booking status updated', `${b.booking_code} is now ${b.status}`);
+    if (!silent) showToast(`Status updated to ${b.status}`, '🔔');
+  }
+  lastTrackedCode = b.booking_code;
+  lastTrackedStatus = b.status;
   resultBox.style.display = 'block';
 
   // Title and Code
@@ -715,10 +985,13 @@ async function performTracking(code, phone) {
 // ADMIN PANEL ENGINE
 // -----------------------------------------------------------------------------
 function openAdminPanel() {
+  adminHasOpened = true;
+  localStorage.setItem('ajay_admin_has_opened', '1');
   $('#adminModal').style.display = 'block';
   updateSupabaseIndicator();
   updateAdminUserBadge();
   renderAdminContent();
+  renderAdminNotifications();
 }
 
 function updateAdminUserBadge() {
@@ -887,7 +1160,7 @@ function renderAdminDashboard(container) {
       const code = sel.dataset.quickStatus;
       const newStatus = sel.value;
       await dbManager.updateBookingStatus(code, newStatus);
-      showToast(`Updated ${code} to ${newStatus}`);
+      showToast(`Updated ${code} to ${newStatus} — use 💬 WhatsApp to notify customer`, '🔔');
       await loadBookings();
       renderAdminContent();
     };
@@ -993,8 +1266,8 @@ function renderAdminBookings(container) {
                 </td>
                 <td>
                   <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-emerald btn-sm" title="Chat with customer on WhatsApp">
-                      💬 WhatsApp
+                    <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-emerald btn-sm" title="Notify customer on WhatsApp about booking status">
+                      💬 Notify
                     </a>
                     <button class="btn btn-danger btn-sm admin-del-booking-btn" data-code="${escapeHtml(b.booking_code)}" title="Delete booking">
                       🗑️
@@ -1033,7 +1306,7 @@ function renderAdminBookings(container) {
       const code = sel.dataset.code;
       const newStatus = sel.value;
       await dbManager.updateBookingStatus(code, newStatus);
-      showToast(`Updated status for ${code}`);
+      showToast(`Updated ${code} to ${newStatus} — use 💬 WhatsApp to notify customer`, '🔔');
       await loadBookings();
     };
   });
@@ -1604,6 +1877,30 @@ CREATE POLICY "Public all" ON public.bookings FOR ALL USING (true);</div>
           </div>
           <button type="submit" class="btn btn-primary btn-sm">Save Shop Settings</button>
         </form>
+
+        <!-- FREE PUSH NOTIFICATIONS (ntfy.sh) -->
+        <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-top: 20px;">
+          <h4 style="margin: 0 0 8px; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+            <span>🔔 Free Push Notifications (ntfy.sh)</span>
+          </h4>
+          <p style="color: var(--text-muted); font-size: 0.84rem; margin-bottom: 12px;">
+            Get a push notification on your phone when a new booking arrives — even with the browser closed. 100% free, no signup, no API key.
+          </p>
+          <ol style="margin: 0 0 12px; padding-left: 18px; font-size: 0.82rem; color: #475569; line-height: 1.5;">
+            <li>Install the free <b>ntfy</b> app (Android/iOS) or open <a href="https://ntfy.sh" target="_blank" rel="noopener" style="color:#ea580c;">ntfy.sh</a></li>
+            <li>Subscribe to your topic name below (pick something unguessable)</li>
+            <li>Paste the same topic name here and click Save</li>
+          </ol>
+          <div class="form-group">
+            <label>ntfy Topic Name</label>
+            <input type="text" id="settingNtfyTopic" class="form-control" placeholder="e.g. ajay-electricals-bookings-x7k9" value="${escapeHtml(shopSettings.ntfy_topic || localStorage.getItem('ajay_ntfy_topic') || '')}" />
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" id="saveNtfyBtn" class="btn btn-primary btn-sm">Save Topic</button>
+            <button type="button" id="testNtfyBtn" class="btn btn-secondary btn-sm">Send Test Push</button>
+          </div>
+          <div id="ntfyStatus" style="margin-top: 8px; font-size: 0.78rem; color: var(--text-muted);"></div>
+        </div>
       </div>
 
     </div>
@@ -1696,6 +1993,39 @@ CREATE POLICY "Public all" ON public.bookings FOR ALL USING (true);</div>
       shopSettings = updated;
       renderShopSettingsUI();
       showToast('Shop settings updated successfully!');
+    };
+  }
+
+  // ntfy topic save/test
+  const saveNtfyBtn = $('#saveNtfyBtn');
+  if (saveNtfyBtn) {
+    saveNtfyBtn.onclick = () => {
+      const topic = ($('#settingNtfyTopic') ? $('#settingNtfyTopic').value.trim() : '');
+      localStorage.setItem('ajay_ntfy_topic', topic);
+      shopSettings.ntfy_topic = topic;
+      showToast(topic ? 'ntfy topic saved!' : 'ntfy topic cleared', '🔔');
+      const st = $('#ntfyStatus');
+      if (st) st.textContent = topic ? `Saved: ${topic}` : 'No topic set.';
+    };
+  }
+  const testNtfyBtn = $('#testNtfyBtn');
+  if (testNtfyBtn) {
+    testNtfyBtn.onclick = async () => {
+      const topic = ($('#settingNtfyTopic') ? $('#settingNtfyTopic').value.trim() : '') || localStorage.getItem('ajay_ntfy_topic');
+      if (!topic) { alert('Please enter a topic name first.'); return; }
+      const st = $('#ntfyStatus');
+      if (st) st.textContent = 'Sending test push...';
+      try {
+        await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
+          method: 'POST',
+          headers: { 'Title': 'Test from Ajay Electricals', 'Priority': 'default', 'Tags': 'white_check_mark' },
+          body: 'This is a test notification. If you see this, push is working!'
+        });
+        if (st) st.textContent = 'Test push sent! Check your ntfy app.';
+        showToast('Test push sent', '🔔');
+      } catch (e) {
+        if (st) st.textContent = 'Failed: ' + (e.message || 'network error');
+      }
     };
   }
 }
